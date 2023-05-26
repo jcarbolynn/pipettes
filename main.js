@@ -11,6 +11,8 @@ function PipetteSchedule() {
   // convert dates
   // actually still appears to run even with that exception?
   // might be an issue later: Exception: The parameters (String,String,String) don't match the method signature for Utilities.formatDate.
+  // https://developers.google.com/google-ads/scripts/docs/features/dates
+  // https://www.reddit.com/r/GoogleAppsScript/comments/knfzs4/google_sheet_to_google_doc_template_date_format/
   
 // /*
   const now = new Date();
@@ -23,9 +25,16 @@ function PipetteSchedule() {
       internal = pip_obj[i]['Internal Exp'];
       external = pip_obj[i]['External Exp'];
       pipette = pip_obj[i]['Name'];
+      type = pip_obj[i]['Type'];
       person = pip_obj[i]['User'];
 
-      MailApp.sendEmail({to: pip_obj[i].Email, subject: "pipette verification/calibration " + pipette, htmlBody: "Please verify " + pipette + " this week (or update the google sheet if you have verified it recently: https://docs.google.com/spreadsheets/d/1LwApcvc1Jizm6LMIGWEqhTPhK0xesCpn70-Z-YSAtNU/edit#gid=110014716). Internal verification expires: " + Utilities.formatDate(internal, 'America/New_York', 'MMMM dd, yyyy') + " and the external calibration expires:  " + Utilities.formatDate(external, 'America/New_York', 'MMMM dd, yyyy'), noReply:true})
+// /*
+      MailApp.sendEmail({to: pip_obj[i].Email, subject: "pipette verification/calibration " + pipette, htmlBody: "Please verify " + pipette + " " + type + " this week (or update the google sheet if you have verified it recently: https://docs.google.com/spreadsheets/d/1LwApcvc1Jizm6LMIGWEqhTPhK0xesCpn70-Z-YSAtNU/edit#gid=110014716). Internal verification expires: " + Utilities.formatDate(internal, 'America/New_York', 'MMMM dd, yyyy') + " and the external calibration expires:  " + Utilities.formatDate(external, 'America/New_York', 'MMMM dd, yyyy'), noReply:true})
+// /*
+      MailApp.sendEmail({to: SUPERVISOR EMAIL, subject: "pipette verification/calibration " + pipette, htmlBody: person + " to verify " + pipette + " " + type + " this week. It expires: " + Utilities.formatDate(internal, 'America/New_York', 'MMMM dd, yyyy') + " and the external calibration expires:  " + Utilities.formatDate(external, 'America/New_York', 'MMMM dd, yyyy'), noReply:true})
+// */
+      MailApp.sendEmail({to: MY EMAIL, subject: "pipette verification/calibration " + pipette, htmlBody: person + " to verify " + pipette + " " + type + " this week. It expires: " + Utilities.formatDate(internal, 'America/New_York', 'MMMM dd, yyyy') + " and the external calibration expires:  " + Utilities.formatDate(external, 'America/New_York', 'MMMM dd, yyyy'), noReply:true})
+// */
     }
   }
 // */
