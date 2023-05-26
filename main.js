@@ -28,11 +28,12 @@ function PipetteSchedule() {
       type = pip_obj[i]['Type'];
       person = pip_obj[i]['User'];
 
-// /*
+
+/*
       MailApp.sendEmail({to: pip_obj[i].Email, subject: "pipette verification/calibration " + pipette, htmlBody: "Please verify " + pipette + " " + type + " this week (or update the google sheet if you have verified it recently: https://docs.google.com/spreadsheets/d/1LwApcvc1Jizm6LMIGWEqhTPhK0xesCpn70-Z-YSAtNU/edit#gid=110014716). Internal verification expires: " + Utilities.formatDate(internal, 'America/New_York', 'MMMM dd, yyyy') + " and the external calibration expires:  " + Utilities.formatDate(external, 'America/New_York', 'MMMM dd, yyyy'), noReply:true})
 // /*
       MailApp.sendEmail({to: SUPERVISOR EMAIL, subject: "pipette verification/calibration " + pipette, htmlBody: person + " to verify " + pipette + " " + type + " this week. It expires: " + Utilities.formatDate(internal, 'America/New_York', 'MMMM dd, yyyy') + " and the external calibration expires:  " + Utilities.formatDate(external, 'America/New_York', 'MMMM dd, yyyy'), noReply:true})
-// */
+*/
       MailApp.sendEmail({to: MY EMAIL, subject: "pipette verification/calibration " + pipette, htmlBody: person + " to verify " + pipette + " " + type + " this week. It expires: " + Utilities.formatDate(internal, 'America/New_York', 'MMMM dd, yyyy') + " and the external calibration expires:  " + Utilities.formatDate(external, 'America/New_York', 'MMMM dd, yyyy'), noReply:true})
 // */
     }
@@ -46,17 +47,19 @@ function getData(pipette_data){
   var rows = pipette_data.getRange(4,1,pipette_data.getLastRow()-1, pipette_data.getLastColumn()).getValues();
 
   for(var i = 0, l= rows.length; i<l ; i++){
-    var dataRow = rows[i];
-    var record = {};
-    record['Email'] = dataRow[0];
-    record['User'] = dataRow[1];
-    record['Name'] = dataRow[2];
-    record['Type'] = dataRow[3];
-    record['Internal Ver'] = dataRow[4];
-    record['Internal Exp'] = dataRow[5];
-    record['External Exp'] = dataRow[6];
-    record['External Cal.'] = dataRow[7];
-    dataArray.push(record);
+    if (rows[i][0] !== ''){
+      var dataRow = rows[i];
+      var record = {};
+      record['Email'] = dataRow[0];
+      record['User'] = dataRow[1];
+      record['Name'] = dataRow[2];
+      record['Type'] = dataRow[3];
+      record['Internal Ver'] = dataRow[4];
+      record['Internal Exp'] = dataRow[5];
+      record['External Exp'] = dataRow[6];
+      record['External Cal.'] = dataRow[7];
+      dataArray.push(record);
+    }
   }
   return dataArray;
 }
