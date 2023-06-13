@@ -18,9 +18,11 @@ function PipetteSchedule() {
   const now = new Date();
   const MILLS_PER_DAY = 1000 * 60 * 60 * 24;
   var plus_week = new Date(now.getTime() + 6*MILLS_PER_DAY)
+
+  verify = [];
   
   // l should be number of rows
-  for(var i = 0, l= pip_obj.length; i<l ; i++){
+  for(var i = 0, l= pip_obj.length; i<l ; i++){    
     if (pip_obj[i]['Internal Exp'] < plus_week || pip_obj[i]['External Exp'] < plus_week){
       internal = pip_obj[i]['Internal Exp'];
       external = pip_obj[i]['External Exp'];
@@ -28,17 +30,21 @@ function PipetteSchedule() {
       type = pip_obj[i]['Type'];
       person = pip_obj[i]['User'];
 
+      verify.push(pip_obj[i]);
 
-/*
       MailApp.sendEmail({to: pip_obj[i].Email, subject: "pipette verification/calibration " + pipette, htmlBody: "Please verify " + pipette + " " + type + " this week (or update the google sheet if you have verified it recently: https://docs.google.com/spreadsheets/d/1LwApcvc1Jizm6LMIGWEqhTPhK0xesCpn70-Z-YSAtNU/edit#gid=110014716). Internal verification expires: " + Utilities.formatDate(internal, 'America/New_York', 'MMMM dd, yyyy') + " and the external calibration expires:  " + Utilities.formatDate(external, 'America/New_York', 'MMMM dd, yyyy'), noReply:true})
-// /*
-      MailApp.sendEmail({to: SUPERVISOR EMAIL, subject: "pipette verification/calibration " + pipette, htmlBody: person + " to verify " + pipette + " " + type + " this week. It expires: " + Utilities.formatDate(internal, 'America/New_York', 'MMMM dd, yyyy') + " and the external calibration expires:  " + Utilities.formatDate(external, 'America/New_York', 'MMMM dd, yyyy'), noReply:true})
-*/
-      MailApp.sendEmail({to: MY EMAIL, subject: "pipette verification/calibration " + pipette, htmlBody: person + " to verify " + pipette + " " + type + " this week. It expires: " + Utilities.formatDate(internal, 'America/New_York', 'MMMM dd, yyyy') + " and the external calibration expires:  " + Utilities.formatDate(external, 'America/New_York', 'MMMM dd, yyyy'), noReply:true})
-// */
+
     }
   }
-// */
+
+  MailApp.sendEmail({to: "EMAIL1",
+                subject: "Pipettes to Verify",
+                htmlBody: printStuff(verify),
+                noReply:true});
+  MailApp.sendEmail({to: "EMAIL2",
+                  subject: "Pipettes to Verify",
+                  htmlBody: printStuff(verify),
+                  noReply:true});
 
 }
 
@@ -64,4 +70,16 @@ function getData(pipette_data){
   return dataArray;
 }
 
+function printStuff(pipettes){
+  string = "<html><body><br><table border=1><tr><th>Person</th><th>Pipette ID</th><th>Pipette Type</th><th>Verification Expiration</th><th>Calibration Expiration</th></tr></br>";
+  for (var i=0; i<pipettes.length; i++){
+    string = string + "<tr>";
 
+    temp = `<td> ${pipettes[i]['User']} </td><td> ${pipettes[i]['Name']}  </td><td> ${pipettes[i]['Type']} </td><td> ${Utilities.formatDate(pipettes[i]['Internal Exp'], 'America/New_York', 'MMMM dd, yyyy')}</td><td> ${Utilities.formatDate(pipettes[i]['External Exp'], 'America/New_York', 'MMMM dd, yyyy')}</td>`;
+
+    string = string.concat(temp);
+    string = string + "</tr>";
+  }
+  string = string + "</table></body></html>";
+  return string;
+}
