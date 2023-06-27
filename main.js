@@ -37,6 +37,11 @@ function PipetteSchedule() {
     }
   }
 
+  // //making sure I am accessing the entire table
+  // first = pip_obj[0];
+  // last = pip_obj[Object.keys(pip_obj).length-1];
+  // console.log(first,last);
+
   MailApp.sendEmail({to: "EMAIL1",
                 subject: "Pipettes to Verify",
                 htmlBody: printStuff(verify),
