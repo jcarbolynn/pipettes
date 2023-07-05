@@ -32,24 +32,35 @@ function PipetteSchedule() {
 
       verify.push(pip_obj[i]);
 
-      // if (pip_obj[i].Email != ""){
-      //   MailApp.sendEmail({to: pip_obj[i].Email,
-      //                      subject: "pipette verification/calibration " + pipette,
-      //                      htmlBody: "Please verify " + pipette + " " + type + " this week (or update the google sheet if you have verified it recently: https://docs.google.com/spreadsheets/d/1LwApcvc1Jizm6LMIGWEqhTPhK0xesCpn70-Z-YSAtNU/edit#gid=110014716). Internal verification expires: " + Utilities.formatDate(internal, 'America/New_York', 'MMMM dd, yyyy') + " and the external calibration expires:  " + Utilities.formatDate(external, 'America/New_York', 'MMMM dd, yyyy'),
-      //                      noReply:true})
-      // }
+      if (pip_obj[i].Email != ""){
+        MailApp.sendEmail({to: pip_obj[i].Email,
+                           subject: "pipette verification/calibration " + pipette,
+                           htmlBody: "Please verify " + pipette + " " + type + " this week (or update the google sheet if you have verified it recently: https://docs.google.com/spreadsheets/d/1LwApcvc1Jizm6LMIGWEqhTPhK0xesCpn70-Z-YSAtNU/edit#gid=110014716). Internal verification expires: " + Utilities.formatDate(internal, 'America/New_York', 'MMMM dd, yyyy') + " and the external calibration expires:  " + Utilities.formatDate(external, 'America/New_York', 'MMMM dd, yyyy'),
+                           noReply:true})
+      }
       
 
     }
   }
 
+  // //making sure I am accessing the entire table
+  // first = pip_obj[0];
+  // last = pip_obj[Object.keys(pip_obj).length-1];
+  // console.log(first,last);
+
   if (Object.keys(verify).length != 0){
     MailApp.sendEmail({to: EMAIL,
-              subject: "Pipettes to Verify",
-              htmlBody: printStuff(verify),
-              noReply:true});
+                       subject: "Hooray no pipettes to verify",
+                       htmlBody: "",
+                       noReply:true});
   }
 
+  else{
+    MailApp.sendEmail({to: EMAIL,
+                       subject: "Cell Pipettes to Verify",
+                       htmlBody: printStuff(verify),
+                       noReply:true});
+  }
 }
 
 function getData(pipette_data){
