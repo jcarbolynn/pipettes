@@ -44,14 +44,10 @@ function PipetteSchedule() {
   }
 
   if (Object.keys(verify).length != 0){
-    MailApp.sendEmail({to: "ambhatnagar@montrose-env.com",
+    MailApp.sendEmail({to: EMAIL,
               subject: "Pipettes to Verify",
               htmlBody: printStuff(verify),
               noReply:true});
-    MailApp.sendEmail({to: "joelle.carbonell@enthalpy.com",
-                    subject: "Pipettes to Verify",
-                    htmlBody: printStuff(verify),
-                    noReply:true});
   }
 
 }
