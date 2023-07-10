@@ -50,16 +50,16 @@ function PipetteSchedule() {
 
   if (Object.keys(verify).length != 0){
     MailApp.sendEmail({to: EMAIL,
-                       subject: "Hooray no pipettes to verify",
-                       htmlBody: "",
+                       subject: "Cell Pipettes to Verify",
+                       htmlBody: printStuff(verify),
                        noReply:true});
   }
 
   else{
     MailApp.sendEmail({to: EMAIL,
-                       subject: "Cell Pipettes to Verify",
-                       htmlBody: printStuff(verify),
-                       noReply:true});
+                   subject: "Hooray no pipettes to verify",
+                   htmlBody: "",
+                   noReply:true});
   }
 }
 
