@@ -38,7 +38,7 @@ function PipetteSchedule() {
       if (pip_sheet_data[i].Email != "" & internal != "" & external != ""){
         MailApp.sendEmail({to: pip_sheet_data[i].Email,
                            subject: "pipette verification/calibration " + pipette,
-                           htmlBody: "Please verify " + pipette + " " + type + " this week (or update the google sheet if you have verified it recently: https://docs.google.com/spreadsheets/d/1dWewM4NoKxmaAcJlOW9MkOU9wHEeMIxy7q7yfQEUxyg/edit#gid=0). Internal verification expires on " + Utilities.formatDate(internal, 'America/New_York', 'MMMM dd, yyyy') + " and the external calibration expires on " + Utilities.formatDate(external, 'America/New_York', 'MMMM dd, yyyy'),
+                           htmlBody: "Please verify " + pipette + " " + type + " this week (or update the google sheet if you have verified it recently: https://docs.google.com/spreadsheets/d/1dWewM4NoKxmaAcJlOW9MkOU9wHEeMIxy7q7yfQEUxyg/edit#gid=1305711438). Internal verification expires on " + Utilities.formatDate(internal, 'America/New_York', 'MMMM dd, yyyy') + " and the external calibration expires on " + Utilities.formatDate(external, 'America/New_York', 'MMMM dd, yyyy'),
                            noReply:true})
       }
     }
